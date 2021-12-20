@@ -2,9 +2,8 @@
 using MyFavouriteGames.DAL.Context;
 using MyFavouriteGames.DAL.Repo.IRepo;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MyFavouriteGames.DAL.Repo
@@ -16,32 +15,41 @@ namespace MyFavouriteGames.DAL.Repo
 
         public BaseRepo(MyFavouriteGamesDbContext dbContext) => (this.dbContext, dbSet) = (dbContext, dbContext.Set<T>());
 
-        public async Task CreateAsync(T entity)
+        public virtual IQueryable<T> GetAll() => dbSet;
+
+        public virtual async Task<T> GetByIdAsync(int id) => await dbSet.FindAsync(id);
+
+        public virtual IQueryable<T> GetByExpression(Expression<Func<T, bool>> filter) => dbSet.Where(filter);
+
+        public virtual async Task<Result> CreateAsync(T entity)
         {
             await dbSet.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
+            return await SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(T entity)
+        public virtual async Task<Result> DeleteAsync(T entity)
         {
             dbSet.Remove(entity);
-            await dbContext.SaveChangesAsync();
+            return await SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await dbSet.ToListAsync();
-        }
-
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await dbSet.FindAsync(id);
-        }
-
-        public async Task UpdateAsync(T entity)
+        public virtual async Task<Result> UpdateAsync(T entity)
         {
             dbSet.Remove(entity);
-            await dbContext.SaveChangesAsync();
+            return await SaveChangesAsync();
+        }
+
+        private async Task<Result> SaveChangesAsync()
+        {
+            try
+            {
+                await dbContext.SaveChangesAsync();
+                return new Result(true);
+            }
+            catch (Exception e)
+            {
+                return new Result(false, e.Message);
+            }
         }
     }
 }

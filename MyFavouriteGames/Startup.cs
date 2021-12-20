@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,13 +7,7 @@ using Microsoft.Extensions.Hosting;
 using MyFavouriteGames.BL.Services;
 using MyFavouriteGames.BL.Services.IServices;
 using MyFavouriteGames.DAL.Context;
-using MyFavouriteGames.DAL.Repo;
-using MyFavouriteGames.DAL.Repo.IRepo;
 using MyFavouriteGames.DAL.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFavouriteGames
 {
@@ -33,16 +26,19 @@ namespace MyFavouriteGames
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
 
-            //Inject DbContext
+            //Add DbContext
             services.AddDbContext<MyFavouriteGamesDbContext>(
                 opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //Inject unit of work pattern
+            //Add Service for unit of work pattern
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            //Inject services
+            //Add main services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IHttpService, HttpService>();
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
