@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\IServices\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MyFavouriteGames.DAL\MyFavouriteGames.DAL.csproj" />
   </ItemGroup>
 

@@ -14,7 +14,7 @@ namespace MyFavouriteGames.DAL.Repo
         protected readonly MyFavouriteGamesDbContext dbContext;
         private readonly DbSet<T> dbSet;
 
-        public BaseRepo(MyFavouriteGamesDbContext dbContext) => (this.dbContext, dbSet) = (dbContext, this.dbContext.Set<T>());
+        public BaseRepo(MyFavouriteGamesDbContext dbContext) => (this.dbContext, dbSet) = (dbContext, dbContext.Set<T>());
 
         public async Task CreateAsync(T entity)
         {
