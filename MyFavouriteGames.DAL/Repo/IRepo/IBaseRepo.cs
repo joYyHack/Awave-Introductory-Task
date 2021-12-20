@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MyFavouriteGames.DAL.Repo.IRepo
@@ -9,9 +8,10 @@ namespace MyFavouriteGames.DAL.Repo.IRepo
     public interface IBaseRepo<T>
     {
         Task<T> GetByIdAsync(int id);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task CreateAsync(T entity);
-        Task UpdateAsync(T entity);
-        Task DeleteAsync(T entity);
+        IQueryable<T> GetByExpression(Expression<Func<T, bool>> filter);
+        IQueryable<T> GetAll();
+        Task<Result> CreateAsync(T entity);
+        Task<Result> UpdateAsync(T entity);
+        Task<Result> DeleteAsync(T entity);
     }
 }

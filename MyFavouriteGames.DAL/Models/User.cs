@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyFavouriteGames.DAL.Models
 {
     public class User
     {
+        [Required]
         public int Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public string Email { get; set; }
-        public string GameComment { get; set; }
-        public byte VotedRank { get; set; }
-        public DateTime? VotingDate { get; set; }
-        public Game Game { get; set; }
+
+        public DateTime? LastTimeVotedDate { get; set; }
+
+        public ICollection<UserGame> VotedGames { get; set; }
 
     }
 }

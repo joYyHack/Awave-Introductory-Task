@@ -1,11 +1,8 @@
-﻿using MyFavouriteGames.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using MyFavouriteGames.DAL.Context;
 using MyFavouriteGames.DAL.Models;
 using MyFavouriteGames.DAL.Repo.IRepo;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyFavouriteGames.DAL.Repo
 {
@@ -13,7 +10,8 @@ namespace MyFavouriteGames.DAL.Repo
     {
         public GameRepo(MyFavouriteGamesDbContext dbContext) : base(dbContext)
         {
-
         }
+
+        public override IQueryable<Game> GetAll() => dbContext.Games.Include(g => g.VotedUsers);
     }
 }
