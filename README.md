@@ -36,6 +36,8 @@ Sample data and data handling: Create sample data manually or consider using htt
   ## TODO
   - [ ] Finilize business logic
   - [ ] Add Database into project(local for now)
+  - [ ] Set initial data for db
+  - [ ] Add web scrapper to get games
   - [ ] Add migrations
   - [ ] Finilize controllers
   - [ ] Update routings
